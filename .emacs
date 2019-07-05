@@ -35,7 +35,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (material-theme evil-mode avy general use-package))))
+ '(package-selected-packages
+   (quote
+    (ivy elpy which-key neotree alpha spacemacs-theme nlinum-relative material-theme evil-mode avy general use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -72,12 +74,59 @@
 (use-package avy :ensure t
   :commands (avy-goto-word-1))
 
-(use-package material-theme :ensure t)
-(load-theme 'material t)
+(use-package spacemacs-theme
+  :defer t
+  :init (load-theme 'spacemacs-dark t))
 
-(use-package nlinum-relative :ensure t)
+(use-package nlinum-relative
+  :ensure t
+  :config
+  (nlinum-relative-setup-evil)
+  (setq nlinum-highlight-current-line 1)
+  (setq nlinum-format " %d ")
+  (setq nlinum-relative-redisplay-delay .1)
+  (setq nlinum-relative-offset 0))
+
+(global-nlinum-relative-mode)
+
+
+(use-package alpha :ensure t)
+(global-set-key (kbd "C-M-)") 'transparency-increase)
+(global-set-key (kbd "C-M-(") 'transparency-decrease)
+
+;; full screen
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
+
+;; remove toolbar
+(tool-bar-mode -1) 
+
+
+(use-package which-key
+  :ensure t
+  :config (which-key-mode 1))
+
+(use-package neotree :ensure t)
 
 
 
 
+(add-hook 'neotree-mode-hook
+	    (lambda ()
+                (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
+                (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-quick-look)
+                (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+                (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)
+                (define-key evil-normal-state-local-map (kbd "g") 'neotree-refresh)
+                (define-key evil-normal-state-local-map (kbd "n") 'neotree-next-line)
+                (define-key evil-normal-state-local-map (kbd "p") 'neotree-previous-line)
+                (define-key evil-normal-state-local-map (kbd "A") 'neotree-stretch-toggle)
+                (define-key evil-normal-state-local-map (kbd "H") 'neotree-hidden-file-toggle)))
 
+
+
+(use-package python :ensure t)
+(use-package ivy :ensure t)
+
+(use-package elpy :ensure t)
+(package-initialize)
+(advice-add 'python-mode :before 'elpy-enable)
