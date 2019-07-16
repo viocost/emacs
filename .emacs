@@ -37,7 +37,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (prettier-js web-mode prettier-js-mode engine-mode htmlize gist slime eval-in-repl eval-in-repl-python exec-path-from-shell jedi epc org-bullets all-the-icons auto-complete flymd markdown-mode tern-auto-complete ctags js-doc doom-modeline spaceline js2-refactor xref-js2 js2-refactpr helm company-tern rainbow-delimiters org-super-agenda treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs ranger js2-mode js2 tern tern-mode autopair evil ivy elpy which-key neotree alpha spacemacs-theme nlinum-relative material-theme evil-mode avy general use-package)))
+    (dumb-jump prettier-js web-mode prettier-js-mode engine-mode htmlize gist slime eval-in-repl eval-in-repl-python exec-path-from-shell jedi epc org-bullets all-the-icons auto-complete flymd markdown-mode tern-auto-complete ctags js-doc doom-modeline spaceline js2-refactor xref-js2 js2-refactpr helm company-tern rainbow-delimiters org-super-agenda treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs ranger js2-mode js2 tern tern-mode autopair evil ivy elpy which-key neotree alpha spacemacs-theme nlinum-relative material-theme evil-mode avy general use-package)))
  '(show-paren-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -147,7 +147,7 @@
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
 
-
+(use-package dumb-jump :ensure t)
 
 ;;js
 (use-package js2-mode
@@ -165,7 +165,8 @@
 	        (tern-mode t)
 		(general-define-key
 		 :keymaps 'js2-mode-map
-		 [remap evil-goto-definition] 'tern-find-definition)))
+		 [remap evil-goto-definition] 'dumb-jump-go
+		 [remap evil-jump-backward] 'dumb-jump-back)))
   (eval-after-load 'tern
    '(progn
       (require 'tern-auto-complete)
@@ -184,6 +185,10 @@
   (setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
   (defun web-mode-init-hook ()
   "Hooks for Web mode.  Adjust indent."
+  (general-define-key
+		 :keymaps 'web-mode-map
+		 [remap evil-goto-definition] 'dumb-jump-go
+		 [remap evil-jump-backward] 'dumb-jump-back)
   (setq web-mode-markup-indent-offset 4))
   
     (add-hook 'web-mode-hook  'web-mode-init-hook))
@@ -208,7 +213,8 @@
 			      (jedi:setup)
 			      (general-define-key
 			       :keymaps 'python-mode-map
-			       [remap evil-goto-definition] 'jedi:goto-definition)))
+			       [remap evil-goto-definition] 'jedi:goto-definition
+			       [remap evil-jump-backward] 'dumb-jump-back)))
 
 ;; python specific keys
 (tyrant-def 'normal python-mode-map
