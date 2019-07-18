@@ -46,6 +46,9 @@
  ;; If there is more than one, they won't work right.
  )
 
+;; Never type yes or no
+(defalias 'yes-or-no-p 'y-or-n-p)
+
 ;; for searching selected in browser
 (use-package engine-mode :ensure t)
 (defengine google
@@ -315,11 +318,13 @@
 
     ;;Project
     "pdd"  'projectile-discover-projects-in-directory
-    "pp"  'projectile-switch-project
-    "pm"  'projectile-command-map
-    "pg"  'projectile-grep
+    "pp"   'projectile-switch-project
+    "pm"   'projectile-command-map
+    "pg"   'projectile-grep
+    "pff"   'projectile-find-file
+    "pfo"   'projectile-find-file-other-window
+    "pa"   'projectile-add-known-project
 
-    
     ;; Commands
     "cs"  'shell
 
@@ -329,7 +334,6 @@
     ":"   'shell-command
     ";"   'eval-expression
     "ac"  'calendar)
-
 
 
   (general-def 'normal doc-view-mode-map
@@ -483,6 +487,7 @@
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "C-c p")  'projectile-command-map)
 (add-to-list 'projectile-globally-ignored-directories "public") 
+(add-to-list 'projectile-globally-ignored-directories "node_modules") 
 
 ;; mode-line
 (use-package all-the-icons :ensure t)
