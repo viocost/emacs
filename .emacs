@@ -37,7 +37,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (dumb-jump prettier-js web-mode prettier-js-mode engine-mode htmlize gist slime eval-in-repl eval-in-repl-python exec-path-from-shell jedi epc org-bullets all-the-icons auto-complete flymd markdown-mode tern-auto-complete ctags js-doc doom-modeline spaceline js2-refactor xref-js2 js2-refactpr helm company-tern rainbow-delimiters org-super-agenda treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs ranger js2-mode js2 tern tern-mode autopair evil ivy elpy which-key neotree alpha spacemacs-theme nlinum-relative material-theme evil-mode avy general use-package)))
+    (term+ terminal-toggle dumb-jump prettier-js web-mode prettier-js-mode engine-mode htmlize gist slime eval-in-repl eval-in-repl-python exec-path-from-shell jedi epc org-bullets all-the-icons auto-complete flymd markdown-mode tern-auto-complete ctags js-doc doom-modeline spaceline js2-refactor xref-js2 js2-refactpr helm company-tern rainbow-delimiters org-super-agenda treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs ranger js2-mode js2 tern tern-mode autopair evil ivy elpy which-key neotree alpha spacemacs-theme nlinum-relative material-theme evil-mode avy general use-package)))
  '(show-paren-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -100,8 +100,8 @@
 (global-display-line-numbers-mode)
 
 (use-package alpha :ensure t)
-(global-set-key (kbd "C-M-)") 'transparency-decrease)
-(global-set-key (kbd "C-M-(") 'transparency-increase)
+(global-set-key (kbd "C-)") 'transparency-decrease)
+(global-set-key (kbd "C-(") 'transparency-increase)
 
 ;; full screen
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
@@ -240,6 +240,11 @@
      (browse-url url)))
   (setq flymd-browser-open-function 'my-flymd-browser-function))
 
+
+
+(use-package term+ :ensure t)
+
+
 ;;==========KEYS
 
 
@@ -247,7 +252,6 @@
 (tyrant-def
 
     ""     nil
-    "c"   (general-simulate-key "C-c")
     "h"   (general-simulate-key "C-h")
     "u"   (general-simulate-key "C-u")
     "x"   (general-simulate-key "C-x")
@@ -310,8 +314,14 @@
     "fs"  'save-buffer
 
     ;;Project
-    "p"   'projectile-command-map
+    "pdd"  'projectile-discover-projects-in-directory
+    "pp"  'projectile-switch-project
+    "pm"  'projectile-command-map
+    "pg"  'projectile-grep
+
     
+    ;; Commands
+    "cs"  'shell
 
     ;; Applications
     "a"   '(:ignore t :which-key "Applications")
