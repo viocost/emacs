@@ -195,7 +195,8 @@
   (setq web-mode-markup-indent-offset 4))
   
     (add-hook 'web-mode-hook  'web-mode-init-hook))
-
+(general-def '(insert normal visual) web-mode-map
+  "C-c c" 'web-mode-element-close )
 
 ;; python
 ;; pip and virtualenv must be installed
