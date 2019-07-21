@@ -69,6 +69,7 @@
 ;; gist-directory set manually
 ;; once it is set - search and saves are now possible
 (use-package deft :ensure t
+  
   :init
   (setq deft-extensions '("txt" "md" "org" "tex"))
   (setq deft-use-filter-string-for-filename t)
@@ -348,6 +349,13 @@
     ;; Commands
     "cs"  'shell
 
+    ;; Notes
+    "nn" 'deft
+    "nc" 'deft-new-file
+    "nd" 'deft-delete-file
+    "nw" 'deft-open-file-other-window
+    "na" 'deft-archive-file
+    
     ;; Applications
     "a"   '(:ignore t :which-key "Applications")
     "ad"  'dired
