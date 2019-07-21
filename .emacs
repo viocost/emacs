@@ -37,7 +37,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (term+ terminal-toggle dumb-jump prettier-js web-mode prettier-js-mode engine-mode htmlize gist slime eval-in-repl eval-in-repl-python exec-path-from-shell jedi epc org-bullets all-the-icons auto-complete flymd markdown-mode tern-auto-complete ctags js-doc doom-modeline spaceline js2-refactor xref-js2 js2-refactpr helm company-tern rainbow-delimiters org-super-agenda treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs ranger js2-mode js2 tern tern-mode autopair evil ivy elpy which-key neotree alpha spacemacs-theme nlinum-relative material-theme evil-mode avy general use-package)))
+    (deft term+ terminal-toggle dumb-jump prettier-js web-mode prettier-js-mode engine-mode htmlize gist slime eval-in-repl eval-in-repl-python exec-path-from-shell jedi epc org-bullets all-the-icons auto-complete flymd markdown-mode tern-auto-complete ctags js-doc doom-modeline spaceline js2-refactor xref-js2 js2-refactpr helm company-tern rainbow-delimiters org-super-agenda treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil treemacs ranger js2-mode js2 tern tern-mode autopair evil ivy elpy which-key neotree alpha spacemacs-theme nlinum-relative material-theme evil-mode avy general use-package)))
  '(show-paren-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -62,6 +62,22 @@
 
 (toggle-scroll-bar -1)
 (set-default-font "Source Code Pro 13")
+
+
+;; gists
+;; This provides a quick search finctionality in my notes 
+;; gist-directory set manually
+;; once it is set - search and saves are now possible
+(use-package deft :ensure t
+  :init
+  (setq deft-extensions '("txt" "md" "org" "tex"))
+  (setq deft-use-filter-string-for-filename t)
+  (setq deft-text-mode 'org-mode)
+  (setq deft-extensions '("org"))
+  (setq deft-new-file-format "%Y-%m-%dT%H%M")
+  (setq deft-org-mode-title-prefix t)
+  (setq deft-directory "~/notes"))
+
 
 ;; org mode
 (use-package org-bullets :ensure t
@@ -203,13 +219,15 @@
 ;; create symbolic link for pip is a solution when there is only python3 installed
 
 (use-package python :ensure t)
+(setq python-shell-interpreter "python3")
 (use-package eval-in-repl :ensure t)
 (use-package epc :ensure t)
 (use-package jedi :ensure t
   :config
+  (setq py-python-command "/usr/bin/python3")
   (setq jedi:environment-virtualenv
       (append python-environment-virtualenv
-              '("--python" "/usr/local/bin/python3"))))
+              '("--python" "/usr/bin/python3"))))
 (use-package elpy :ensure t)
 (package-initialize)
 (advice-add 'python-mode :before 'elpy-enable)
@@ -322,9 +340,10 @@
     "pp"   'projectile-switch-project
     "pm"   'projectile-command-map
     "pg"   'projectile-grep
-    "pff"   'projectile-find-file
-    "pfo"   'projectile-find-file-other-window
+    "pff"  'projectile-find-file
+    "pfo"  'projectile-find-file-other-window
     "pa"   'projectile-add-known-project
+    "ps"   'projectile-save-project-buffers
 
     ;; Commands
     "cs"  'shell
